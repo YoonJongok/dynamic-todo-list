@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
@@ -26,7 +26,7 @@ const Input = styled.input`
   padding: 3px 12px;
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
   padding: 0.5em 1em 0.3em;
   border: rgba(255, 255, 255, 0);
   border-radius: 2px;
@@ -37,11 +37,11 @@ const Button = styled.button`
   text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
   text-align: center;
   cursor: pointer;
-  /* transition: all 0.2s; */
-  background-color: ${(props) => props.theme.btnBgColor}
+  transition: all 0.2s;
+  background-color: #ffbe76;
   &:hover {
      border: 0.16em solid rgba(255, 255, 255, 1);
-    background-color: ${(props) => props.theme.btnAccentColor}
+    background-color: #f0932b;
   }
 `;
 

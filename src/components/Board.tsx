@@ -1,11 +1,8 @@
 import React from "react";
-import { useForm } from "react-hook-form";
-import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { ITodo, todoState } from "../atoms";
-import { ICategoryForm } from "./CreateCategory";
+import { ITodo } from "../atoms";
 import CreateToDo from "./CreateToDo";
-import ToDo from "./ToDo";
+import ToDoList from "./ToDoList";
 
 const SBoard = styled.div`
   width: 320px;
@@ -23,7 +20,7 @@ const SBoard = styled.div`
   }
 `;
 
-const Area = styled.div`
+const BoardArea = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -36,9 +33,12 @@ interface IBoardProps {
   toDos: ITodo[];
   category: string;
 }
-interface IForm {
-  toDo: string;
-}
+
+export const CategoryTitle = styled.h3`
+  font-size: 1.5rem;
+  font-weight: 600;
+`;
+
 export const Form = styled.form`
   width: 80%;
   margin: 0 auto;
@@ -60,15 +60,15 @@ const ListContainer = styled.ul`
 function Board({ toDos, category }: IBoardProps) {
   return (
     <SBoard>
-      <h3>{category}</h3>
-      <Area>
+      <CategoryTitle>{category}</CategoryTitle>
+      <BoardArea>
         <CreateToDo category={category} />
         <ListContainer>
           {toDos.map((todo, index) => (
-            <ToDo key={index} {...todo} />
+            <ToDoList key={index} {...todo} categoryTitle={category} />
           ))}
         </ListContainer>
-      </Area>
+      </BoardArea>
     </SBoard>
   );
 }

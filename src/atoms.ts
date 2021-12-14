@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
 
 export interface ITodo {
   id: number;
@@ -10,10 +10,17 @@ interface ITodoState {
 }
 
 export const todoState = atom<ITodoState>({
-  key: "todo",
+  key: "todoState",
   default: {
     TO_DO: [],
     DOING: [],
     DONE: [],
   },
 });
+
+// export const todoListState = selector({
+//   key: "todoListState",
+//   get: ({get}) => {
+
+//   }
+// });

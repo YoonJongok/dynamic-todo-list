@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { todoState } from "../atoms";
+import { Button } from "./CreateToDo";
 
 export interface ICategoryForm {
   category: string;
@@ -23,25 +24,8 @@ const Form = styled.form`
     background-color: white;
     padding: 3px 12px;
   }
-  button {
-    padding: 0.5em 1em 0.3em;
-    border: rgba(255, 255, 255, 0);
-    border-radius: 2px;
-    text-decoration: none;
-    font-family: "Roboto", sans-serif;
-    font-weight: 500;
-    color: #ffffff;
-    text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
-    text-align: center;
-    transition: all 0.2s;
-    background-color: ${(props) => props.theme.btnBgColor}
-
-    &:hover {
-       border: 0.16em solid rgba(255, 255, 255, 1);
-      background-color: ${(props) => props.theme.btnAccentColor}
-    }
-  }
 `;
+const SButton = styled(Button)``;
 
 function CreateCategory() {
   const { register, handleSubmit, setValue } = useForm<ICategoryForm>();
@@ -59,7 +43,7 @@ function CreateCategory() {
         placeholder="Add the category"
         {...register("category")}
       />
-      <button type="submit">Add</button>
+      <SButton type="submit">Add</SButton>
     </Form>
   );
 }
