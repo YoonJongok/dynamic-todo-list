@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { ITodo, todoState } from "../atoms";
 import { ICategoryForm } from "./CreateCategory";
@@ -8,14 +8,16 @@ import CreateToDo from "./CreateToDo";
 import ToDo from "./ToDo";
 
 const SBoard = styled.div`
-  height: 400px;
-  width: 220px;
-  background-color: transparent;
+  width: 320px;
+  background-color: ${(props) => props.theme.boardBgColor};
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border: 1px solid;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  overflow: hidden;
   h3 {
     margin: 10px;
   }
@@ -28,7 +30,6 @@ const Area = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  flex-grow: 1;
 `;
 
 interface IBoardProps {
@@ -41,7 +42,7 @@ interface IForm {
 export const Form = styled.form`
   width: 80%;
   margin: 0 auto;
-  height: 1rem;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,38 +52,22 @@ export const Form = styled.form`
     height: 100%;
   }
 `;
+const ListContainer = styled.ul`
+  width: 100%;
+  min-height: 320px;
+`;
 
 function Board({ toDos, category }: IBoardProps) {
-  const { register, handleSubmit, setValue } = useForm<IForm>();
-  // const category = useRecoilValue(categoryState);
-  const setToDos = useSetRecoilState(todoState);
-
-  const handleValid = ({ toDo }: IForm) => {
-    if (!toDo) return;
-    setToDos((oldTodos) => {
-      const newTodo = {
-        id: Date.now(),
-        text: toDo,
-      };
-      return { ...oldTodos, [category]: [newTodo, ...oldTodos[category]] };
-    });
-    setValue("toDo", "");
-  };
-  console.log(toDos);
-
   return (
     <SBoard>
       <h3>{category}</h3>
       <Area>
-        <Form onSubmit={handleSubmit(handleValid)}>
-          <input type="text" placeholder="Add the task" {...register("toDo")} />
-          <button type="submit">Add</button>
-        </Form>
-        <ul>
+        <CreateToDo category={category} />
+        <ListContainer>
           {toDos.map((todo, index) => (
-            <li key={index}>{todo.text}</li>
+            <ToDo key={index} {...todo} />
           ))}
-        </ul>
+        </ListContainer>
       </Area>
     </SBoard>
   );
