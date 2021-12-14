@@ -1,7 +1,7 @@
-import React from "react";
-import { useRecoilValue } from "recoil";
+import React, { useEffect } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { todoState } from "./atoms";
+import { todoSelector, todoState, TODO_LIST } from "./atoms";
 import Board from "./components/Board";
 import CreateCategory from "./components/CreateCategory";
 
@@ -20,8 +20,14 @@ const CategoryBoard = styled.div`
 `;
 
 function App() {
-  const toDos = useRecoilValue(todoState);
-  console.log(toDos);
+  const [toDos, setToDos] = useRecoilState(todoState);
+
+  useEffect(() => {
+    if (localStorage.getItem(TODO_LIST)) {
+      const storage = JSON.parse(localStorage.getItem(TODO_LIST) as string);
+      setToDos(storage);
+    }
+  }, [setToDos]);
 
   return (
     <Container>

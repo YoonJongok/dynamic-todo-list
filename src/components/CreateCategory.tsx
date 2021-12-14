@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { todoState } from "../atoms";
+import { todoState, TODO_LIST } from "../atoms";
 import { Button } from "./CreateToDo";
+import ToDoList from "./ToDoList";
 
 export interface ICategoryForm {
   category: string;
 }
+
 const Form = styled.form`
   width: 80%;
   height: 25px;
@@ -29,13 +31,19 @@ const SButton = styled(Button)``;
 
 function CreateCategory() {
   const { register, handleSubmit, setValue } = useForm<ICategoryForm>();
-  const setTodos = useSetRecoilState(todoState);
+  const [toDos, setTodos] = useRecoilState(todoState);
+
   const handleValid = ({ category }: ICategoryForm) => {
     setTodos((oldTodos) => {
+      localStorage.setItem(
+        TODO_LIST,
+        JSON.stringify({ ...oldTodos, [category]: [] })
+      );
       return { ...oldTodos, [category]: [] };
     });
     setValue("category", "");
   };
+
   return (
     <Form onSubmit={handleSubmit(handleValid)}>
       <input

@@ -1,7 +1,7 @@
 import React from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { ITodo, todoState } from "../atoms";
+import { ITodo, todoState, TODO_LIST } from "../atoms";
 
 const List = styled.li`
   width: 100%;
@@ -57,11 +57,6 @@ function ToDoList({ categoryTitle, id, text }: ITodoListProps) {
   const [toDos, setToDos] = useRecoilState(todoState);
 
   const handleOnClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    // const {
-    //   currentTarget: { value },
-    // } = event;
-    // //clicked categoryBtn
-    // console.log("value", value);
     const targetCategory = event.currentTarget.value;
     const { parentElement } = event.currentTarget;
     const targetLiName = parentElement?.parentElement?.firstChild
@@ -80,7 +75,14 @@ function ToDoList({ categoryTitle, id, text }: ITodoListProps) {
       const removedlist = listCopy.filter((val) => val !== taskObj);
       const targetedList = [...oldTodos[targetCategory]];
       const insertedDataList = [...targetedList, taskObj];
-
+      localStorage.setItem(
+        TODO_LIST,
+        JSON.stringify({
+          ...oldTodos,
+          [targetCategory]: [...insertedDataList],
+          [categoryTitle]: [...removedlist],
+        })
+      );
       return {
         ...oldTodos,
         [targetCategory]: [...insertedDataList],
