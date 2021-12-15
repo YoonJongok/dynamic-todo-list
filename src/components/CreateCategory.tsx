@@ -33,7 +33,7 @@ function CreateCategory() {
   const setTodos = useSetRecoilState(todoState);
 
   const handleValid = ({ category }: ICategoryForm) => {
-    if (!category) return;
+    if (category === "") return;
     setTodos((oldTodos) => {
       localStorage.setItem(
         TODO_LIST,

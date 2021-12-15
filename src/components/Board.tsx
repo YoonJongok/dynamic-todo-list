@@ -69,17 +69,22 @@ export const TitleArea = styled.div`
   }
 `;
 const Title = styled.h3`
+  margin: 0 auto;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  text-transform: uppercase;
 `;
 
 const BtnArea = styled.span`
   display: flex;
-  height: 100%;
+  height: 10%;
   justify-content: flex-end;
   align-items: center;
-  padding: 0 0 0.4em;
+  /* padding: 0 0 0.4em; */
+  padding: 0;
+  margin: 0;
   font-size: 1.2em;
   border: none;
   cursor: pointer;
