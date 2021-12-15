@@ -1,4 +1,4 @@
-import { atom, selector, useRecoilValue } from "recoil";
+import { atom } from "recoil";
 
 export const TODO_LIST = "TODO_LIST";
 export interface ITodo {
@@ -16,22 +16,5 @@ export const todoState = atom<ITodoState>({
     TO_DO: [],
     DOING: [],
     DONE: [],
-  },
-});
-
-export const todoSelector = selector<ITodoState>({
-  key: "todoListSelector",
-  get: ({ get }) => {
-    // const storage = JSON.parse(localStorage.getItem(TODO_LIST) as string);
-    // console.log(" storage this is storage", storage);
-    // const toDos = storage ?? get(todoState);
-    // return { ...toDos };
-
-    const toDos = get(todoState);
-    return toDos;
-  },
-  set: ({ set }, newValue) => {
-    console.log("New Value is ", newValue);
-    set(todoState, newValue);
   },
 });

@@ -16,6 +16,7 @@ const List = styled.li`
     margin: 0 1.2em;
     color: #130f40;
     font-weight: 600;
+    font-size: 1.3em;
     margin-bottom: 0.2em;
   }
   span:last-child {
@@ -42,7 +43,7 @@ const Button = styled.button`
   background-color: #ffbe76;
 
   &:hover {
-     border: 0.16em solid rgba(255, 255, 255, 1);
+    border: 0.16em solid rgba(255, 255, 255, 1);
     background-color: #f0932b;
   }
 `;

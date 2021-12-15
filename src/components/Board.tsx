@@ -1,6 +1,9 @@
+import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { ITodo } from "../atoms";
+import { ITodo, todoState, TODO_LIST } from "../atoms";
 import CreateToDo from "./CreateToDo";
 import ToDoList from "./ToDoList";
 
@@ -29,16 +32,6 @@ const BoardArea = styled.div`
   align-items: center;
 `;
 
-interface IBoardProps {
-  toDos: ITodo[];
-  category: string;
-}
-
-export const CategoryTitle = styled.h3`
-  font-size: 1.5rem;
-  font-weight: 600;
-`;
-
 export const Form = styled.form`
   width: 80%;
   margin: 0 auto;
@@ -57,10 +50,74 @@ const ListContainer = styled.ul`
   min-height: 320px;
 `;
 
+interface IBoardProps {
+  toDos: ITodo[];
+  category: string;
+}
+
+export const TitleArea = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 0.3em 1rem 0.5em;
+  font-size: 1.5rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  span {
+    width: 100%;
+  }
+`;
+const Title = styled.h3`
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+`;
+
+const BtnArea = styled.span`
+  display: flex;
+  height: 100%;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 0 0.4em;
+  font-size: 1.2em;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  color: ${(props) => props.theme.btnBgColor};
+  transition: 0.1s ease-in;
+  &:hover {
+    color: ${(props) => props.theme.btnAccentColor};
+  }
+`;
+
 function Board({ toDos, category }: IBoardProps) {
+  const setToDos = useSetRecoilState(todoState);
+  const handleCloseBtn = (event: React.MouseEvent<HTMLSpanElement>) => {
+    const targetCategory = event.currentTarget.parentElement?.children[1]
+      .textContent as string;
+    console.log(targetCategory);
+    setToDos((oldToDos) => {
+      console.log("THis is old todos: ", oldToDos);
+      const filtered = Object.entries(oldToDos).filter(
+        (value) => value[0] !== targetCategory
+      );
+      const newToDos = Object.fromEntries(filtered);
+      localStorage.setItem(TODO_LIST, JSON.stringify(newToDos));
+      return newToDos;
+    });
+  };
+
   return (
     <SBoard>
-      <CategoryTitle>{category}</CategoryTitle>
+      <TitleArea>
+        <span></span>
+        <Title>{category}</Title>
+        <BtnArea onClick={handleCloseBtn}>
+          <FontAwesomeIcon icon={faWindowClose} />
+        </BtnArea>
+      </TitleArea>
       <BoardArea>
         <CreateToDo category={category} />
         <ListContainer>
